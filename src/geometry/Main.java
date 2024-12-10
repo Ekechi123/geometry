@@ -2,74 +2,86 @@ package geometry;
 
 import java.util.Scanner;
 
+/**
+ * Main program to manage and interact with geometric shapes.
+ * Provides options to add, view, remove, and find shapes.
+ */
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
-        // Create an array with an initial size to store 3D shapes
-        Geometry3D[] geometryArray = new Geometry3D[10]; // starting with an array of size 10
-        int currentSize = 0; // To keep track of the current number of shapes
-
+        LinkedList<Geometry3D> shapesList = new LinkedList<>();
+        
         while (true) {
             System.out.println("Choose an option:");
             System.out.println("1. Add a new shape");
             System.out.println("2. View all shapes");
-            System.out.println("3. Exit");
+            System.out.println("3. Remove a shape");
+            System.out.println("4. Find a shape by name");
+            System.out.println("5. Exit");
 
             int command = scanner.nextInt();
 
             if (command == 1) {
-                // Ask the user what shape they want to create
+                // Add a new shape
                 System.out.println("Enter the shape (Sphere, TriangularPrism, RectangularPrism):");
                 String shape = scanner.next();
 
-                // Check if array is full and resize it if necessary
-                if (currentSize >= geometryArray.length) {
-                    // Resize the array to double its size
-                    Geometry3D[] newArray = new Geometry3D[geometryArray.length * 2];
-                    System.arraycopy(geometryArray, 0, newArray, 0, geometryArray.length);
-                    geometryArray = newArray;
-                    System.out.println("Array resized to " + geometryArray.length);
-                }
-
-                // Create and add the shape based on user input
                 if (shape.equalsIgnoreCase("Sphere")) {
                     System.out.println("Enter radius:");
                     double radius = scanner.nextDouble();
-                    geometryArray[currentSize] = new Sphere(radius);
-                    currentSize++;
+                    shapesList.add(new Sphere(radius));
 
                 } else if (shape.equalsIgnoreCase("TriangularPrism")) {
                     System.out.println("Enter base, height, and length:");
                     double base = scanner.nextDouble();
                     double height = scanner.nextDouble();
                     double length = scanner.nextDouble();
-                    geometryArray[currentSize] = new TriangularPrism(base, height, length);
-                    currentSize++;
+                    shapesList.add(new TriangularPrism(base, height, length));
 
                 } else if (shape.equalsIgnoreCase("RectangularPrism")) {
                     System.out.println("Enter length, width, and height:");
                     double length = scanner.nextDouble();
                     double width = scanner.nextDouble();
                     double height = scanner.nextDouble();
-                    geometryArray[currentSize] = new RectangularPrism(length, width, height);
-                    currentSize++;
+                    shapesList.add(new RectangularPrism(length, width, height));
 
                 } else {
                     System.out.println("Unknown shape, please try again.");
                 }
 
             } else if (command == 2) {
-                // View all the stored shapes
+                // View all shapes
                 System.out.println("Stored shapes:");
-                for (int i = 0; i < currentSize; i++) {
-                    System.out.println(geometryArray[i].toString()); // Assumes `toString()` is overridden in the shape classes
-                }
+                shapesList.print();
 
             } else if (command == 3) {
-                // Exit the loop
+                // Remove a shape
+                System.out.println("Enter the shape type to remove (e.g., Sphere, TriangularPrism):");
+                String shapeToRemove = scanner.next();
+                Geometry3D shape = shapesList.find(s -> s.toString().contains(shapeToRemove));
+                if (shape != null) {
+                    shapesList.remove(shape);
+                    System.out.println(shapeToRemove + " has been removed.");
+                } else {
+                    System.out.println("Shape not found.");
+                }
+
+            } else if (command == 4) {
+                // Find a shape by name
+                System.out.println("Enter the shape name to find (e.g., Sphere, TriangularPrism):");
+                String shapeToFind = scanner.next();
+                Geometry3D shape = shapesList.find(s -> s.toString().contains(shapeToFind));
+                if (shape != null) {
+                    System.out.println("Found shape: " + shape);
+                } else {
+                    System.out.println("Shape not found.");
+                }
+
+            } else if (command == 5) {
+                // Exit the program
                 System.out.println("Exiting program...");
                 break;
+
             } else {
                 System.out.println("Invalid command, try again.");
             }
@@ -78,4 +90,5 @@ public class Main {
         scanner.close(); // Close the scanner to prevent resource leaks
     }
 }
+
 

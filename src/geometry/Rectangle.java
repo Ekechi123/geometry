@@ -1,47 +1,41 @@
 package geometry;
 
+/**
+ * Represents a 2D Rectangle shape.
+ * Inherits from Geometry2D.
+ */
 public class Rectangle extends Geometry2D {
     private double length;
     private double width;
 
-    // Constructor
+    /**
+     * Constructor for creating a Rectangle with a specified length and width.
+     * 
+     * @param length The length of the rectangle.
+     * @param width The width of the rectangle.
+     */
     public Rectangle(double length, double width) {
         this.length = length;
         this.width = width;
     }
 
-    // Implement the area() method for Rectangle
+    /**
+     * Calculates the area of the rectangle.
+     * 
+     * @return The area of the rectangle.
+     */
     @Override
-    public double area() {
+    public double calculateArea() {
         return length * width;
     }
 
-    // Getter and setter methods (optional but useful for testing and future extensions)
-    public double getLength() {
-        return length;
+    /**
+     * Calculates the perimeter of the rectangle.
+     * 
+     * @return The perimeter of the rectangle.
+     */
+    @Override
+    public double calculatePerimeter() {
+        return 2 * (length + width);
     }
-
-    public void setLength(double length) {
-        this.length = length;
-    }
-
-    public double getWidth() {
-        return width;
-    }
-
-    public void setWidth(double width) {
-        this.width = width;
-    }
-
-	@Override
-	public double calculateArea() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public double calculatePerimeter() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }
